@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ],
+    "resolveJsonModule": true,
+    "rootDir": "./",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": false,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "paths": {
+        "@controllers/*": ["controllers/*"],
+        "@utils/*": ["utils/*"],
+        "@models/*": ["models/*"],
+        "@routes/*": ["routes/*"],
+        "@types/*": ["@types/*"]
+    }
+  }
+}
