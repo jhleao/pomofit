@@ -1,4 +1,4 @@
-const { Router } = require('express');
+import { Router } from 'express';
 import { start, cancel } from '@controllers/actions';
 
 const router = Router();
