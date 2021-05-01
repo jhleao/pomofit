@@ -1,4 +1,4 @@
-CREATE DATABASE pomofit;
+-- CREATE DATABASE pomofit;
 
 -- \c pomofit
 
