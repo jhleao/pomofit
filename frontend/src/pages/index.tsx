@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Head from 'next/head';
-import GlobalProvider from '../contexts/GlobalContext';
+import { useContext, useEffect } from 'react';
+import GlobalProvider, { GlobalContext } from '../contexts/GlobalContext';
 import checkAuthClient from '../helpers/checkAuthClient';
 import checkAuthServer from '../helpers/checkAuthServer';
 import initialPropsRedirect from '../helpers/initalPropsRedirect';
@@ -19,14 +20,17 @@ export interface UserData {
 }
 
 function Home({ userData }: HomeProps) {
+
+  const { setUserData } = useContext(GlobalContext);
+  useEffect(() => {if(userData) setUserData(userData)}, [])
+
+
   return (
     <>
-    <GlobalProvider userData={userData}>
       <Head>
           <title>pomoFit</title>
       </Head>
       <App />
-    </GlobalProvider>
     </>
   )
 }

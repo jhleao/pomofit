@@ -44,8 +44,6 @@ const GlobalStyles = createGlobalStyle`
 }
 
 body {
-  display: flex;
-  justify-content: center;
   background: ${p => p.theme.colors.background};
   color: ${p => p.theme.colors.text};
   font-family: Inter, serif;

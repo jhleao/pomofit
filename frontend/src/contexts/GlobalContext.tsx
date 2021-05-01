@@ -30,6 +30,7 @@ interface GlobalCtxData {
   toggleStatsModal: () => void;
   toggleLogoutModal: () => void;
   profile: UserProfile;
+  setUserData: (v: UserData) => void;
 }
 
 interface GlobalProviderPs {
@@ -50,7 +51,7 @@ interface UserProfile {
 
 export const GlobalContext = createContext({} as GlobalCtxData);
 
-const GlobalProvider = ({children, userData}: GlobalProviderPs) => {
+const GlobalProvider = ({children}: GlobalProviderPs) => {
 
   const nextLevelXp = (lvl: number) => Math.pow((lvl + 1) * 4, 2);
   const previousLevelXp = (lvl: number)  => Math.pow((lvl) * 4, 2);
@@ -60,11 +61,23 @@ const GlobalProvider = ({children, userData}: GlobalProviderPs) => {
     return lvl;
   }
 
-  const [level, setLevel] = useState(getLevelFromXp(userData?.xp) ?? 0);
-  const [currentExperience, setCurrentExperience] = useState(userData?.xp ?? 0);
-  const [challengesCompleted, setChallengesCompleted] = useState(userData?.completedCount ?? 0);
+  const [userData, setUserData] = useState({} as UserData);
+
+  const populateData = () => {
+    setLevel(getLevelFromXp(userData?.xp));
+    setCurrentExperience(userData?.xp);
+    setChallengesCompleted(userData?.completedCount);
+    setProfile({img: userData.img, name: userData.name});
+    setTheme(userData?.themeName === 'light' ? light : dark);
+  }
+
+  useEffect(() => populateData(), [userData]);
+
+  const [level, setLevel] = useState(0);
+  const [currentExperience, setCurrentExperience] = useState(0);
+  const [challengesCompleted, setChallengesCompleted] = useState(0);
+  const [profile, setProfile] = useState({} as UserProfile)
   const [activeChallenge, setActiveChallenge] = useState(null);
-  const [profile, setProfile] = useState({img: userData.img, name: userData.name} as UserProfile)
 
   const [levelModalIsOpen, setLevelModalIsOpen] = useState(false);
   const toggleLevelModal = () => setLevelModalIsOpen(!levelModalIsOpen);
@@ -115,17 +128,17 @@ const GlobalProvider = ({children, userData}: GlobalProviderPs) => {
     setActiveChallenge(null);
   }
 
-  const [theme, setTheme] = useState(userData?.themeName === 'light' ? light : dark);
+  const [theme, setTheme] = useState(light);
   const toggleTheme = () => setTheme(theme === light ? dark : light);
 
   console.log({profile});
 
-  useEffect(() => {
-    Cookie.set('level', String(level));
-    Cookie.set('currentExperience', String(currentExperience));
-    Cookie.set('challengesCompleted', String(challengesCompleted));
-    Cookie.set('theme', JSON.stringify(theme));
-  }, [level, currentExperience, challengesCompleted, theme]);
+  // useEffect(() => {
+  //   Cookie.set('level', String(level));
+  //   Cookie.set('currentExperience', String(currentExperience));
+  //   Cookie.set('challengesCompleted', String(challengesCompleted));
+  //   Cookie.set('theme', JSON.stringify(theme));
+  // }, [level, currentExperience, challengesCompleted, theme]);
 
   const data = {
     level,
@@ -143,7 +156,8 @@ const GlobalProvider = ({children, userData}: GlobalProviderPs) => {
     toggleLevelModal,
     toggleStatsModal,
     toggleLogoutModal,
-    profile
+    profile,
+    setUserData
   }
 
   useEffect(() => {
