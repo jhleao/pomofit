@@ -2,19 +2,20 @@ import { UserData } from '@types';
 import api from '..';
 
 export interface AuthClient {
-  googleLogin: () => Promise<Boolean>;
+  googleLogin: (code: string) => Promise<Boolean>;
   logout: () => Promise<Boolean>;
   getSelf: () => Promise<UserData> | null;
 }
 
 const createAuthClient = ({handleApiError, setIsLoading, showUIError, Router}) => {
-
-  const googleLogin = async () => {
+ 
+  const googleLogin = async (code: string) => {
     try{
       setIsLoading(true);      
-      await api.post('/auth/google');
+      await api.post('/auth/google', {code});
       setIsLoading(false);
       Router.push('/');
+      console.log('Google Login deu certo');
       return true;
     } catch(e) {
       setIsLoading(false);
@@ -44,7 +45,7 @@ const createAuthClient = ({handleApiError, setIsLoading, showUIError, Router}) =
       setIsLoading(true);      
       const res = await api.post('/auth/me');
       setIsLoading(false);
-      Router.push('/login');
+      console.log('Get self deu certo');
       return res.data;
     } catch(e) {
       setIsLoading(false);

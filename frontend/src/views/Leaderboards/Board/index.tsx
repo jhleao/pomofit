@@ -1,5 +1,5 @@
+import { LeaderboardData } from '@types';
 import React from 'react'
-import { LeaderboardData } from '../';
 import BoardItem from './BoardItem';
 
 import { BoardHeader, Container } from './style';

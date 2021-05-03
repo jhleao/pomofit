@@ -1,3 +1,5 @@
+import { IncomingMessage } from "node:http"
+
 export interface UserData {
   img: string;
   name: string;
@@ -16,16 +18,18 @@ export interface Challenge {
   xp: number,
 }
 
-// export interface ApiUserData {
-//   id: string,
-//   google_id: string,
-//   name: string,
-//   email: string,
-//   img: string,
-//   xp: number,
-//   themeName: string,
-//   completedCount: number,
-//   failed_count: number,
-//   started_count: number,
-//   canceled_count: number
-// }
+export interface LeaderboardData {
+  position: number;
+  user: {
+    name: string, 
+    imgUrl: string, 
+    level: number};
+  completedCount: number, 
+  totalExp: number
+}
+
+declare module 'node:http' {
+  export interface IncomingMessage{
+    cookies: any;
+  }
+}

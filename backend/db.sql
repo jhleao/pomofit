@@ -11,9 +11,7 @@ CREATE TABLE "users" (
   "xp" int DEFAULT 0,
   "theme_name" varchar DEFAULT 'light',
   "completed_count" int DEFAULT 0,
-  "failed_count" int DEFAULT 0,
-  "started_count" int DEFAULT 0,
-  "canceled_count" int DEFAULT 0
+  "started_count" int DEFAULT 0
 );
 
 CREATE TABLE "challenges" (

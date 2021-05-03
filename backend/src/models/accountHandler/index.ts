@@ -1,4 +1,5 @@
 import pool from '@models/.';
+import { getUserIdFromGoogleId } from '@models/users';
 import { GoogleAccount, Account } from '@types';
 import { v4 as uuid } from 'uuid';
 
@@ -14,7 +15,7 @@ const createAccountFromGoogleData = async (data: GoogleAccount) => {
 
   console.log('Account created. Returning.');
 
-  return createdUser;
+  return createdUser.id;
 };
 
 const googleAccountHandler = async (data: GoogleAccount) => {
@@ -22,13 +23,11 @@ const googleAccountHandler = async (data: GoogleAccount) => {
 
   const { googleId } = data;
 
-  const existingUser = await pool.query(
-    'SELECT * FROM users WHERE google_id = $1', [googleId],
-  ).then((query) => query.rows[0]);
-  if (!existingUser) return createAccountFromGoogleData(data);
+  const existingUserId = await getUserIdFromGoogleId(googleId);
+  if (!existingUserId) return createAccountFromGoogleData(data);
 
   console.log('Account already exists. Returning.');
-  return existingUser;
+  return existingUserId;
 };
 
 const accountHandler = async (data: Account) => {

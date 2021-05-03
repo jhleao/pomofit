@@ -1,5 +1,5 @@
+import { LeaderboardData } from '@types';
 import React from 'react'
-import { LeaderboardData } from '../..';
 
 import { Container, Position, UserData, Name,
   Img, Level, ChallengeCount, Experience } from './style';

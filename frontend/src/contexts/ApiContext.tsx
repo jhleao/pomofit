@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import createAuthClient, { AuthClient } from '../api/auth';
 import createChallengesClient, { ChallengesClient } from '../api/challenges';
 import createThemesClient, { ThemesClient } from '../api/themes';
+import createLeaderboardsClient, { LeaderboardsClient } from '@api/leaderboards';
 
 const ApiContext = createContext({} as ApiCtxData);
 export default ApiContext;
@@ -17,6 +18,7 @@ interface ApiCtxData {
   auth: AuthClient;
   challenges: ChallengesClient;
   themes: ThemesClient;
+  leaderboards: LeaderboardsClient;
 }
 
 export const ApiProvider = ({children}) => {
@@ -36,6 +38,7 @@ export const ApiProvider = ({children}) => {
   const auth = createAuthClient({handleApiError, setIsLoading, showUIError, Router});
   const challenges = createChallengesClient({handleApiError, setIsLoading, showUIError});
   const themes = createThemesClient({handleApiError, setIsLoading, showUIError});
+  const leaderboards = createLeaderboardsClient({handleApiError, setIsLoading, showUIError});
 
   const data = {
     error,
@@ -45,6 +48,7 @@ export const ApiProvider = ({children}) => {
     auth,
     challenges,
     themes,
+    leaderboards,
   }
 
   return (

@@ -9,10 +9,10 @@ interface gLoginPs {
 
 const Login = () => {
 
-  const { googleAuth } = useContext(ApiContext);
+  const { auth: { googleLogin } } = useContext(ApiContext);
 
   const googleLoginHandler = 
-    async ({code}: gLoginPs) => await googleAuth(code);
+    async ({code}: gLoginPs) => await googleLogin(code);
 
   return (
     <PageContainer>

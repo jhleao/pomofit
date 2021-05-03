@@ -1,39 +1,30 @@
+import ApiContext from '@contexts/ApiContext';
+import { LeaderboardData } from '@types';
 import React, { useContext, useEffect, useState } from 'react'
-import ApiContext from '../../contexts/ApiContext';
 import Board from './Board';
 
 import { Container } from './style';
 
-export interface LeaderboardData {
-  position: number;
-  user: {
-    name: string, 
-    imgUrl: string, 
-    level: number};
-  completedCount: number, 
-  totalExp: number
-}
-
 const Leaderboards = () => {
 
-  const testData = [
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-    {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
-  ]
+  // const testData = [
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  //   {position: 1, user: {name: 'José Henrique Leão', imgUrl: 'https://github.com/jhleao.png', level: 43}, completedCount: 127, totalExp: 154000},
+  // ]
 
-  const [leaderData, setLeaderData] = useState(testData as LeaderboardData[]);
+  const [leaderData, setLeaderData] = useState([] as LeaderboardData[]);
 
-  // const { getLeaderboards } = useContext(ApiContext);
-  // const updateData = async () => setLeaderData(await getLeaderboards());
-  // useEffect(() => {updateData()}, []);
+  const { leaderboards } = useContext(ApiContext);
+  const updateData = async () => setLeaderData(await leaderboards.get());
+  useEffect(() => {updateData()}, []);
 
   return (
     <Container>

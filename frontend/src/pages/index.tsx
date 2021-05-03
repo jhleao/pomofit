@@ -7,15 +7,20 @@ import checkAuthServer from '@helpers/checkAuthServer';
 import initialPropsRedirect from '@helpers/initalPropsRedirect';
 import App from '@views/Main';
 import { UserData } from '@types';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 interface HomeProps {
-  userData: UserData
+  userData: UserData | null
 }
 
-function Home({ userData }: HomeProps) {
+const Home: NextPage<HomeProps> = ({ userData }) => {
+
+  // const Router = useRouter();
+  // if(!userData) Router.push('/login');
 
   const { setUserData } = useContext(GlobalContext);
-  useEffect(() => {if(userData) setUserData(userData)}, [])
+  useEffect(() => setUserData(userData), [])
 
   return (
     <>
@@ -41,7 +46,13 @@ Home.getInitialProps = async ctx => {
     if(!isAuthenticated) initialPropsRedirect({res: ctx.res, to: '/login'});
   }
 
-  const me = await axios.get('/auth/me', {headers: {Cookie: `pfsID=${authCookie}`}}).then(req => req.data);
-  return {userData: me};
+  try {
+    //TODO: axios não aceita setar esse header programaticamente
+    const me = await axios.get('/auth/me', {headers: {Cookie: `pfsID=${authCookie}`}}).then(req => req.data);
+    return {userData: me};
+  } catch {
+    initialPropsRedirect({res: ctx.res, to: '/login'});
+    return {userData: null};
+  }
   
 }

@@ -20,6 +20,40 @@ export type Account = {
   img: string,
 };
 
+/* eslint camelcase : 0 */
+
+export type dbUser = {
+  id?: string;
+  google_id?: string;
+  name?: string;
+  email?: string;
+  img?: string;
+  xp?: number;
+  theme_name?: string;
+  started_count?: number;
+  completed_count?: number;
+};
+
+export type User = {
+  id?: string;
+  google_id?: string;
+  name?: string;
+  email?: string;
+  img?: string;
+  xp?: number;
+  themeName?: string;
+  startedCount?: number;
+  completedCount?: number;
+  ranking: number;
+}
+
+export type Challenge = {
+  id: string;
+  type: string;
+  description: string;
+  xp: number;
+}
+
 declare module 'express-session' {
   interface SessionData {
     userId?: string;

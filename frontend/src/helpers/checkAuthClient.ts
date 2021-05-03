@@ -1,6 +1,11 @@
 import api from '../api';
 
 const checkAuthClient = async () =>{ 
-  return await api.get(`/auth`).then(r => r.data);
+  try{
+    await api.get(`/auth`).then(r => r.data);
+    return true;
+  } catch {
+    return false;
+  }
 }
 export default checkAuthClient;
