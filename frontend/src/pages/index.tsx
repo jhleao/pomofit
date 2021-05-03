@@ -1,29 +1,21 @@
 import axios from 'axios';
 import Head from 'next/head';
 import { useContext, useEffect } from 'react';
-import GlobalProvider, { GlobalContext } from '../contexts/GlobalContext';
-import checkAuthClient from '../helpers/checkAuthClient';
-import checkAuthServer from '../helpers/checkAuthServer';
-import initialPropsRedirect from '../helpers/initalPropsRedirect';
-import App from '../views/Main';
+import GlobalProvider, { GlobalContext } from '@contexts/GlobalContext';
+import checkAuthClient from '@helpers/checkAuthClient';
+import checkAuthServer from '@helpers/checkAuthServer';
+import initialPropsRedirect from '@helpers/initalPropsRedirect';
+import App from '@views/Main';
+import { UserData } from '@types';
 
 interface HomeProps {
   userData: UserData
-}
-
-export interface UserData {
-  img: string;
-  name: string;
-  xp: number;
-  completedCount: number;
-  themeName: string;
 }
 
 function Home({ userData }: HomeProps) {
 
   const { setUserData } = useContext(GlobalContext);
   useEffect(() => {if(userData) setUserData(userData)}, [])
-
 
   return (
     <>

@@ -1,14 +1,18 @@
+import ModalContext from '@contexts/ModalContext';
 import React, { useContext } from 'react'
-import { GlobalContext } from '../../contexts/GlobalContext';
-import Toggle from '../../components/Toggle/Toggle';
+import { GlobalContext } from '../../../contexts/GlobalContext';
+import Toggle from '../../Toggle/Toggle';
 
 import { Overlay, Container, CloseIcon, Title, ThemeToggleContainer,
   StatsBox, StatsContainer, StatsIcon } from './style';
 
 const StatsModal = () => {
 
-  const { toggleStatsModal, toggleTheme, theme,
-    challengesCompleted, currentExperience} = useContext(GlobalContext);
+  const { toggleTheme, theme, failedCount, startedCount, ranking,
+    canceledCount, completedCount, currentExperience
+  } = useContext(GlobalContext);
+
+  const { toggleStatsModal } = useContext(ModalContext);
 
   return (
     <>
@@ -19,10 +23,10 @@ const StatsModal = () => {
           <StatsIcon />
         </Title>
         <StatsContainer>
-          <StatsBox><p>Desafios iniciados:</p><span>123</span></StatsBox>
-          <StatsBox><p>Desafios completos:</p><span>{challengesCompleted}</span></StatsBox>
+          <StatsBox><p>Desafios iniciados:</p><span>{startedCount}</span></StatsBox>
+          <StatsBox><p>Desafios completos:</p><span>{completedCount}</span></StatsBox>
           <StatsBox><p>Experiência total:</p><span>{currentExperience}xp</span></StatsBox>
-          <StatsBox><p>Ranking mundial:</p><span>1°</span></StatsBox>
+          <StatsBox><p>Ranking mundial:</p><span>{ranking}°</span></StatsBox>
           <CloseIcon src='/icons/close.svg' onClick={toggleStatsModal} />
         </StatsContainer>
         <ThemeToggleContainer>

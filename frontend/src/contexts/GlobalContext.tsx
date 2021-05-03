@@ -1,22 +1,18 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { DefaultTheme, ThemeProvider } from 'styled-components';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { DefaultTheme } from 'styled-components';
 import Cookie from 'js-cookie';
 
 import light from '../themes/light';
 import dark from '../themes/dark';
 
-import challenges from '../../challenges.json';
-import LevelUpModal from '../components/LevelUpModal';
-import StatsModal from '../components/StatsModal';
-import LogoutModal from '../components/LogoutModal';
-import { User } from './ApiContext';
-import { UserData } from '../pages/index';
-import GlobalStyles from '../GlobalStyles';
+import { UserData } from '@types';
+import ModalContext from './ModalContext';
+import ApiContext from './ApiContext';
 
 interface GlobalCtxData {
   level: number;
   currentExperience: number;
-  challengesCompleted: number;
+  completedCount: number;
   levelUp: () => void;
   startNewChallenge: () => void;
   toggleTheme: () => void;
@@ -26,11 +22,12 @@ interface GlobalCtxData {
   activeChallenge: Challenge;
   experienceToNextLevel: number;
   experienceToPreviousLevel: number;
-  toggleLevelModal: () => void;
-  toggleStatsModal: () => void;
-  toggleLogoutModal: () => void;
   profile: UserProfile;
   setUserData: (v: UserData) => void;
+  failedCount: number;
+  startedCount: number;
+  canceledCount: number;
+  ranking: number;
 }
 
 interface GlobalProviderPs {
@@ -53,6 +50,9 @@ export const GlobalContext = createContext({} as GlobalCtxData);
 
 const GlobalProvider = ({children}: GlobalProviderPs) => {
 
+  const { setLevelModalIsOpen } = useContext(ModalContext);
+  const { auth: { getSelf }, challenges, themes } = useContext(ApiContext);
+
   const nextLevelXp = (lvl: number) => Math.pow((lvl + 1) * 4, 2);
   const previousLevelXp = (lvl: number)  => Math.pow((lvl) * 4, 2);
 
@@ -66,41 +66,46 @@ const GlobalProvider = ({children}: GlobalProviderPs) => {
   const populateData = () => {
     setLevel(getLevelFromXp(userData?.xp));
     setCurrentExperience(userData?.xp);
-    setChallengesCompleted(userData?.completedCount);
+    setCompletedCount(userData?.completedCount);
     setProfile({img: userData.img, name: userData.name});
+    setFailedCount(userData?.failedCount);
+    setStartedCount(userData?.startedCount);
+    setCanceledCount(userData?.canceledCount);
+    setRanking(userData?.ranking);
     setTheme(userData?.themeName === 'light' ? light : dark);
   }
 
   useEffect(() => populateData(), [userData]);
 
+  const updateMe = async () => setUserData(await getSelf()); 
+
   const [level, setLevel] = useState(0);
   const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengesCompleted, setChallengesCompleted] = useState(0);
   const [profile, setProfile] = useState({} as UserProfile)
   const [activeChallenge, setActiveChallenge] = useState(null);
 
-  const [levelModalIsOpen, setLevelModalIsOpen] = useState(false);
-  const toggleLevelModal = () => setLevelModalIsOpen(!levelModalIsOpen);
-
-  const [statsModalIsOpen, setStatsModalIsOpen] = useState(false);
-  const toggleStatsModal = () => setStatsModalIsOpen(!statsModalIsOpen);
-
-  const [logoutModalIsOpen, setLogoutModalIsOpen] = useState(false);
-  const toggleLogoutModal = () => setLogoutModalIsOpen(!logoutModalIsOpen);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [failedCount, setFailedCount] = useState(0);
+  const [startedCount, setStartedCount] = useState(0);
+  const [canceledCount, setCanceledCount] = useState(0);
+  const [ranking, setRanking] = useState(0);
 
   const experienceToPreviousLevel = previousLevelXp(level);
   const experienceToNextLevel = nextLevelXp(level);
   
-  const startNewChallenge = () => {
-    const newChallengeIndex = Math.floor(Math.random() * challenges.length);
-    const challenge = challenges[newChallengeIndex];
+  const startNewChallenge = async () => {
+
+    // const newChallengeIndex = Math.floor(Math.random() * challenges.length);
+    // const challenge = challenges[newChallengeIndex];
+  
+    const challenge = await challenges.start();
     setActiveChallenge(challenge);
 
     new Audio('/notification.mp3').play();
 
     if(Notification.permission === 'granted'){
       new Notification('NOVO DESAFIO! 🎉', {
-        body: `Valendo ${challenge.amount}xp`,
+        body: `Valendo ${challenge.xp}xp`,
         silent: true,
         icon: `/favicon.png`,
       })
@@ -118,32 +123,39 @@ const GlobalProvider = ({children}: GlobalProviderPs) => {
     setActiveChallenge(null);
   }
 
-  const completeChallenge = () => {
+  const completeChallenge = async () => {
     if(!activeChallenge) return;
 
-    const newExp = currentExperience + activeChallenge.amount;
-    setCurrentExperience(newExp);
+    await challenges.complete(activeChallenge);
+    await updateMe();
 
-    setChallengesCompleted(challengesCompleted + 1);
+    // const newExp = currentExperience + activeChallenge.amount;
+    // setCurrentExperience(newExp);
+    // setCompletedCount(completedCount + 1);
+
     setActiveChallenge(null);
   }
 
   const [theme, setTheme] = useState(light);
-  const toggleTheme = () => setTheme(theme === light ? dark : light);
+
+  const toggleTheme = async () => {
+    setTheme(theme === light ? dark : light);
+    await themes.toggle();
+  };
 
   console.log({profile});
 
   // useEffect(() => {
   //   Cookie.set('level', String(level));
   //   Cookie.set('currentExperience', String(currentExperience));
-  //   Cookie.set('challengesCompleted', String(challengesCompleted));
+  //   Cookie.set('completedCount', String(completedCount));
   //   Cookie.set('theme', JSON.stringify(theme));
-  // }, [level, currentExperience, challengesCompleted, theme]);
+  // }, [level, currentExperience, completedCount, theme]);
 
   const data = {
     level,
     currentExperience,
-    challengesCompleted,
+    completedCount,
     levelUp,
     startNewChallenge,
     toggleTheme,
@@ -153,11 +165,12 @@ const GlobalProvider = ({children}: GlobalProviderPs) => {
     activeChallenge,
     completeChallenge,
     resetChallenge,
-    toggleLevelModal,
-    toggleStatsModal,
-    toggleLogoutModal,
     profile,
-    setUserData
+    setUserData,
+    failedCount,
+    startedCount,
+    canceledCount,
+    ranking,
   }
 
   useEffect(() => {
@@ -167,13 +180,7 @@ const GlobalProvider = ({children}: GlobalProviderPs) => {
   return (
 
     <GlobalContext.Provider value={data}>
-      <ThemeProvider theme={light}>
-        <GlobalStyles/>
         {children}
-        {levelModalIsOpen && <LevelUpModal />}
-        {statsModalIsOpen && <StatsModal />}
-        {logoutModalIsOpen && <LogoutModal />}
-      </ThemeProvider>
     </GlobalContext.Provider>
   )
 }

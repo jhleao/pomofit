@@ -1,46 +1,50 @@
-import { createContext } from 'react';
-import api from '../helpers/apiConfig';
-import Router from 'next/router';
+import { createContext, useContext, useState } from 'react';
+import createErrorHandler from '../api/errorHandler';
+import ModalContext from './ModalContext';
+import { useRouter } from 'next/router';
+
+import createAuthClient, { AuthClient } from '../api/auth';
+import createChallengesClient, { ChallengesClient } from '../api/challenges';
+import createThemesClient, { ThemesClient } from '../api/themes';
 
 const ApiContext = createContext({} as ApiCtxData);
 export default ApiContext;
 
-export interface User {
-  id: string,
-  google_id: string,
-  name: string,
-  email: string,
-  img: string,
-  xp: number,
-  themeName: string,
-  completedCount: number,
-  // failed_count: number,
-  // started_count: number,
-  // canceled_count: number
-}
-
 interface ApiCtxData {
-  googleAuth: (code: string) => void;
-  logout: () => void;
+  error: Boolean,
+  showUIError: () => void;
+  resetUIError: () => void;
+  auth: AuthClient;
+  challenges: ChallengesClient;
+  themes: ThemesClient;
 }
 
 export const ApiProvider = ({children}) => {
 
-  const googleAuth = async (code: string) => {
-    const req = await api.post(
-      `/auth/google`, {code});
-    Router.push('/');
-  }
+  const { toggleAlertModal } = useContext(ModalContext);
 
-  const logout = async () => {
-    const req = await api.post(
-      `/auth/logout`);
-    Router.push('/login');
-  }
+  const [isLoading, setIsLoading] = useState(false as Boolean);
+
+  const [error, setError] = useState(false as Boolean);
+  const showUIError = () => setError(true as Boolean);
+  const resetUIError = () => setError(false as Boolean);
+
+  const Router = useRouter();
+
+  const handleApiError = createErrorHandler({toggleAlertModal});
+
+  const auth = createAuthClient({handleApiError, setIsLoading, showUIError, Router});
+  const challenges = createChallengesClient({handleApiError, setIsLoading, showUIError});
+  const themes = createThemesClient({handleApiError, setIsLoading, showUIError});
 
   const data = {
-    googleAuth,
-    logout
+    error,
+    showUIError,
+    resetUIError,
+    isLoading,
+    auth,
+    challenges,
+    themes,
   }
 
   return (

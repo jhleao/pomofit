@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { start, complete, cancel } from '@controllers/challenges';
+import loggedOnly from 'middlewares/loggedOnly';
 
 const router = Router();
 
-router.get('/', start);
+router.get('/', loggedOnly, start);
 
-router.post('/complete', complete);
+router.post('/complete', loggedOnly, complete);
 
-router.post('/cancel', cancel);
+router.post('/cancel', loggedOnly, cancel);
 
 export default router;

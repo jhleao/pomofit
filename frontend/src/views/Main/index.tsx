@@ -9,7 +9,7 @@ import ExpBar from '../../components/ExpBar';
 import Countdown from '../../components/Countdown';
 import ChallengeBox from '../../components/ChallengeBox';
 import { CountdownProvider } from '../../contexts/CountdownContext';
-import LevelUpModal from '../../components/LevelUpModal';
+import LevelUpModal from '../../components/Modals/LevelUpModal';
 import { GlobalContext } from '../../contexts/GlobalContext';
 
 function App() {

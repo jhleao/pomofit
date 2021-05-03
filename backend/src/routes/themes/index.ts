@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { toggle } from '@controllers/theme';
+import { toggle } from '@controllers/themes';
 
 const router = Router();
 

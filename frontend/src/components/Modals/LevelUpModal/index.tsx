@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
-import { GlobalContext } from '../../contexts/GlobalContext';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 
 import { Overlay, Container, Number, 
   CloseIcon, Label, WhatsAppShare} from './style';
 import { IoLogoWhatsapp } from 'react-icons/io5';
+import ModalContext from '../../../contexts/ModalContext';
 
 const LevelUpModal = () => {
 
-  const { level, toggleLevelModal } = useContext(GlobalContext);
+  const { level } = useContext(GlobalContext);
+  const { toggleLevelModal } = useContext(ModalContext);
 
   return (
     <>

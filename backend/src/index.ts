@@ -1,7 +1,6 @@
 import auth from '@routes/auth';
 import challenge from '@routes/challenges';
-import actions from '@routes/actions';
-import theme from '@routes/theme';
+import themes from '@routes/themes';
 
 import cors from 'cors';
 import express from 'express';
@@ -42,8 +41,7 @@ app.use(checkValidJson);
 
 app.use('/auth', auth);
 app.use('/challenge', challenge);
-app.use('/actions', actions);
-app.use('/theme', theme);
+app.use('/themes', themes);
 
 const { PORT } = process.env;
 

@@ -4,12 +4,12 @@ import { Container } from './style';
 
 const CompletedChallenges = () => {
 
-  const { challengesCompleted } = useContext(GlobalContext);
+  const { completedCount } = useContext(GlobalContext);
 
   return (
     <Container>
       <span>Desafios completos</span>
-      <span>{challengesCompleted}</span>
+      <span>{completedCount}</span>
     </Container>
   )
 }
