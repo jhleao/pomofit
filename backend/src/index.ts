@@ -5,10 +5,12 @@ import leaderboards from '@routes/leaderboards';
 
 import cors from 'cors';
 import express from 'express';
-import testDatabse from '@utils/testDatabase';
+import testDatabase from '@utils/testDatabase';
 import session from 'express-session';
 import pool from '@models/.';
 import checkValidJson from '@utils/checkValidJson';
+import https from 'https';
+import fs from 'fs';
 
 const ConnectPG = require('connect-pg-simple')(session);
 
@@ -47,7 +49,13 @@ app.use('/themes', themes);
 
 const { PORT } = process.env;
 
-const server = app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-  testDatabse(server);
-});
+const httpsServer = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/api.pomofit.app/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/api.pomofit.app/fullchain.pem'),
+}, app);
+
+const server = IN_PROD
+  ? httpsServer.listen(PORT, () => console.log(`HTTPS Server running on port ${PORT}`))
+  : app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+
+testDatabase(server);
