@@ -20,7 +20,7 @@ const app = express();
 
 const { COOKIE_SECRET, COOKIE_NAME, NODE_ENV } = process.env;
 const IN_PROD = NODE_ENV === 'production';
-const CORS_ORIGIN = IN_PROD ? 'https://www.pomofit.app/' : 'http://localhost:3000';
+const CORS_ORIGIN = IN_PROD ? 'https://pomofit.app' : 'http://localhost:3000';
 const ONE_HOUR = 1000 * 60 * 60 * 1;
 
 app.use(cors({ origin: CORS_ORIGIN, credentials: true }));

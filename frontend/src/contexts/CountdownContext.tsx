@@ -22,7 +22,7 @@ export const CountdownContext = createContext({} as CountdownContextData);
 export const CountdownProvider = ({ children }: CountdownProviderPs) => {
   const { startNewChallenge } = useContext(GlobalContext);
 
-  const timePerCycle = 0.05 * 60;
+  const timePerCycle = 25 * 60;
 
   const [time, setTime] = useState(timePerCycle);
   const [isActive, setIsActive] = useState(false);
