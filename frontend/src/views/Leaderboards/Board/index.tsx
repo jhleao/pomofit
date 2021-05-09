@@ -1,5 +1,4 @@
 import { LeaderboardData } from '@types';
-import React from 'react'
 import BoardItem from './BoardItem';
 
 import { BoardHeader, Container } from './style';
@@ -8,19 +7,16 @@ interface BoardPs {
   data: LeaderboardData[]
 }
 
-const Board = ({data} : BoardPs) => {
+const Board = ({ data } : BoardPs) => (
+  <Container>
+    <BoardHeader>
+      <span>Posição</span>
+      <span>Usuário</span>
+      <span>Desafios</span>
+      <span>Experiência</span>
+    </BoardHeader>
+    {data.map((d, i) => <BoardItem data={d} key={i}/>)}
+  </Container>
+);
 
-  return (
-    <Container>
-      <BoardHeader>
-        <th>Posição</th>
-        <th>Usuário</th>
-        <th>Desafios</th>
-        <th>Experiência</th>
-      </BoardHeader>
-      {data.map(d => <BoardItem data={d} />)}
-    </Container>
-  )
-}
-
-export default Board
+export default Board;

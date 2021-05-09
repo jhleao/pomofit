@@ -1,6 +1,7 @@
 import auth from '@routes/auth';
-import challenge from '@routes/challenges';
+import challenges from '@routes/challenges';
 import themes from '@routes/themes';
+import leaderboards from '@routes/leaderboards';
 
 import cors from 'cors';
 import express from 'express';
@@ -40,7 +41,8 @@ app.use(session({
 app.use(checkValidJson);
 
 app.use('/auth', auth);
-app.use('/challenge', challenge);
+app.use('/challenges', challenges);
+app.use('/leaderboards', leaderboards);
 app.use('/themes', themes);
 
 const { PORT } = process.env;

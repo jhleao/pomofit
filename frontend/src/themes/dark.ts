@@ -1,12 +1,20 @@
 const dark = {
   title: 'dark',
   colors: {
-    background: `var(--darkBackground)`,
-    line: `var(--darkLine)`,
-    text: `var(--darkText)`,
-    textHighlight: `var(--darkTextHighdark)`,
-    title: `var(--darkTitle)`,
-  }
-}
+    background: 'var(--darkThemeBackground)',
+    foreground: 'var(--darkThemeForeground)',
+    negative: 'var(--darkThemeNegative)',
+    positive: 'var(--darkThemePositive)',
+    overlay: 'var(--darkThemeOverlay)',
+    line: 'var(--darkThemeLine)',
+    text: 'var(--darkThemeText)',
+    textHighlight: 'var(--darkThemeTextHighlight)',
+    title: 'var(--darkThemeTitle)',
+    inactiveButton: 'var(--primary)',
+    inactiveButtonHover: 'var(--darkPrimary)',
+    activeButton: 'var(--secondary)',
+    activeButtonHover: 'var(--primary)',
+  },
+};
 
 export default dark;

@@ -5,6 +5,7 @@ display: flex;
 flex-flow: column nowrap;
 justify-content: flex-start;
 align-items: center;
+width: 100%;
 `;
 
 export const BoardHeader = styled.div`
@@ -17,6 +18,7 @@ margin-bottom: 1rem;
 
 color: var(--lightText);
 font-size: 0.7em;
+font-weight: 600; 
 text-transform: uppercase;
 opacity: 0.9;
 

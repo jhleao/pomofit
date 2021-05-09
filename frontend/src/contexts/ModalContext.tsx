@@ -1,15 +1,12 @@
 import { createContext, useState } from 'react';
 
-const ModalContext = createContext({} as ModalCtxData);
-export default ModalContext;
-
 interface alertModalPs {
-  msg: string;
+  msg?: string;
 }
 
 interface confirmationModalPs {
-  msg: string;
-  cb: (() => void) | (() => Promise<void>);
+  msg?: string;
+  cb?: (() => void) | (() => Promise<void>);
 }
 
 export type ToggleAlertModal = (data?: alertModalPs) => void;
@@ -27,21 +24,25 @@ interface ModalCtxData {
   confirmationModalIsOpen: Boolean;
   confirmationModalData: confirmationModalPs;
   alertModalMsg: string;
+  toggleMobileMenu: () => void;
+  mobileMenuIsOpen: boolean;
 }
 
-export const ModalProvider = ({children}) => {
+const ModalContext = createContext({} as ModalCtxData);
+export default ModalContext;
 
+export const ModalProvider = ({ children }) => {
   const [alertModalIsOpen, setAlertModalIsOpen] = useState(false as Boolean);
   const [alertModalMsg, setAlertModalMsg] = useState('');
-  const toggleAlertModal = ({msg}: alertModalPs) => {
-    if(msg) setAlertModalMsg(msg);
-    setAlertModalIsOpen(!alertModalIsOpen)
+  const toggleAlertModal = ({ msg }: alertModalPs = {}) => {
+    if (msg) setAlertModalMsg(msg);
+    setAlertModalIsOpen(!alertModalIsOpen);
   };
 
   const [confirmationModalIsOpen, setConfirmationModalIsOpen] = useState(false as Boolean);
-  const [confirmationModalData, setConfirmationModalData] = useState({msg: '', cb: () => {}} as confirmationModalPs);
-  const toggleConfirmationModal = ({msg, cb}: confirmationModalPs) => {
-    if(msg && cb) setConfirmationModalData({msg, cb});
+  const [confirmationModalData, setConfirmationModalData] = useState({ msg: '', cb: () => {} } as confirmationModalPs);
+  const toggleConfirmationModal = ({ msg, cb }: confirmationModalPs = {}) => {
+    if (msg && cb) setConfirmationModalData({ msg, cb });
     setConfirmationModalIsOpen(!confirmationModalIsOpen);
   };
 
@@ -50,6 +51,9 @@ export const ModalProvider = ({children}) => {
 
   const [statsModalIsOpen, setStatsModalIsOpen] = useState(false as Boolean);
   const toggleStatsModal = () => setStatsModalIsOpen(!statsModalIsOpen);
+
+  const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
+  const toggleMobileMenu = () => setMobileMenuIsOpen(!mobileMenuIsOpen);
 
   const data = {
     toggleAlertModal,
@@ -63,11 +67,13 @@ export const ModalProvider = ({children}) => {
     toggleStatsModal,
     levelModalIsOpen,
     statsModalIsOpen,
-  }
+    toggleMobileMenu,
+    mobileMenuIsOpen,
+  };
 
   return (
     <ModalContext.Provider value={data}>
       {children}
     </ModalContext.Provider>
-  )
-}
+  );
+};

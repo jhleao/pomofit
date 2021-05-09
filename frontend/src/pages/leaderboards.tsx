@@ -1,25 +1,29 @@
+import { DashboardRoute } from '@components/ProtectedRoutes';
+import { GlobalContext } from '@contexts/GlobalContext';
+import { UserData } from '@types';
+import { NextPage } from 'next';
 import Head from 'next/head';
-import { ThemeProvider } from 'styled-components';
+import { useContext, useEffect } from 'react';
 import GlobalStyles from '../GlobalStyles';
-import checkAuthClient from '../helpers/checkAuthClient';
-import checkAuthServer from '../helpers/checkAuthServer';
-import initialPropsRedirect from '../helpers/initalPropsRedirect';
-import light from '../themes/light';
 import Leaderboards from '../views/Leaderboards';
-import Login from '../views/Login';
 
+interface LeaderboardData {
+  me: UserData | null
+}
 
-function LeaderboardsPage() {
+const LeaderboardsPage: NextPage<LeaderboardData> = ({ me }) => {
+  const { setUserData } = useContext(GlobalContext);
+  useEffect(() => setUserData(me), []);
+
   return (
-    <>      
+    <>
     <GlobalStyles/>
       <Head>
         <title>pomoFit | Ranking</title>
       </Head>
       <Leaderboards />
     </>
-  )
-}
+  );
+};
 
-export default LeaderboardsPage;
-
+export default DashboardRoute(LeaderboardsPage);

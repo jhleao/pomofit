@@ -1,7 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext, ReactNode, useContext, useEffect, useState,
+} from 'react';
 import { GlobalContext } from './GlobalContext';
 
 interface CountdownContextData {
+  timePercentage: number,
   startCountdown: () => void,
   resetCountdown: () => void,
   minutes: number,
@@ -16,47 +19,51 @@ interface CountdownProviderPs {
 
 export const CountdownContext = createContext({} as CountdownContextData);
 
-export const CountdownProvider = ({children}: CountdownProviderPs) => {
-
+export const CountdownProvider = ({ children }: CountdownProviderPs) => {
   const { startNewChallenge } = useContext(GlobalContext);
 
-  const [time, setTime] = useState(0.05 * 60);
+  const timePerCycle = 0.05 * 60;
+
+  const [time, setTime] = useState(timePerCycle);
   const [isActive, setIsActive] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
+  
+  const timePercentage = ((timePerCycle - time) / timePerCycle) * 100;
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
 
+  // eslint-disable-next-line no-undef
   let countdownTimeout: NodeJS.Timeout;
   const startCountdown = () => setIsActive(true);
   const resetCountdown = () => {
     clearTimeout(countdownTimeout);
     setIsActive(false);
     setHasFinished(false);
-    setTime(0.05 * 60);
-  }
+    setTime(timePerCycle);
+  };
 
   useEffect(() => {
-    if (isActive && time > 0) {
-      countdownTimeout = setTimeout(() => { setTime(time - 1) }, 1000);
-    } else if (isActive && time === 0) {
+    if (isActive && time > 0) countdownTimeout = setTimeout(() => { setTime(time - 1); }, 1000);
+    else if (isActive && time === 0) {
       setHasFinished(true);
       startNewChallenge();
     }
-  }, [isActive, time])
+  }, [isActive, time]);
 
-  const data ={
+  const data = {
+    timePercentage,
     startCountdown,
     resetCountdown,
     minutes,
     seconds,
     isActive,
     hasFinished,
-  }
+  };
 
   return (
     <CountdownContext.Provider value={data}>
       {children}
     </CountdownContext.Provider>
-  )
-}
+  );
+};

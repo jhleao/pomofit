@@ -12,7 +12,7 @@ const createChallengesClient = ({handleApiError, setIsLoading, showUIError}) => 
   const start = async () => {
     try{
       setIsLoading(true);
-      const res = await api.post('/challenges/start');
+      const res = await api.get('/challenges');
       setIsLoading(false);
       return res.data;
     } catch(e) {

@@ -15,11 +15,11 @@ to {
 export const Overlay = styled.div`
 width: 100%;
 height: 100%;
-position: absolute;
+position: fixed;
 top: 0;
 left: 0;
 
-background: rgba(255, 255, 255, 0.5);
+background: ${(p) => p.theme.colors.overlay};
 filter: blur(20px);
 `;
 
@@ -29,10 +29,10 @@ flex-flow: column nowrap;
 justify-content: center;
 align-items: center;
 
-position: absolute;
+position: fixed;
 top: 50%;
 left: 50%;
-background: #fff;
+background: ${(p) => p.theme.colors.foreground};
 
 opacity: 0;
 transform: translate(-50%, -80%);
@@ -45,6 +45,10 @@ box-shadow: 0 0 60px rgba(0, 0, 0, 0.07);
 
 & > * {margin-bottom: 1rem};
 & > *:last-child {margin-bottom: 0};
+
+@media screen and (max-width: 1000px){
+  width: 90vw;
+}
 `;
 
 export const CloseIcon = styled.img`

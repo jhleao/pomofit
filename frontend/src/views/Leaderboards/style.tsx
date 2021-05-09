@@ -9,7 +9,10 @@ align-items: flex-start;
 & > h1 {
   font-weight: 600;
   margin: 2rem 0;
-  color: var(--lightTitle);
+}
+
+@media screen and (max-width: 1000px){
+  width: 90%;
+  margin: 0 auto;
 }
 `;
-

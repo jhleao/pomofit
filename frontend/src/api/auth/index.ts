@@ -43,9 +43,8 @@ const createAuthClient = ({handleApiError, setIsLoading, showUIError, Router}) =
   const getSelf = async () => {
     try{
       setIsLoading(true);      
-      const res = await api.post('/auth/me');
+      const res = await api.get('/auth/me');
       setIsLoading(false);
-      console.log('Get self deu certo');
       return res.data;
     } catch(e) {
       setIsLoading(false);

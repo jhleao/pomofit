@@ -1,28 +1,26 @@
-import React, { useContext } from 'react'
+import { useContext, FC } from 'react';
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { Filled, Div, Bar, Current } from './style';
 
-const ExpBar: React.FC = () => {
-
-  const { 
+const ExpBar: FC = () => {
+  const {
     experienceToPreviousLevel: prev,
-    experienceToNextLevel: next, 
-    currentExperience: cur, } = useContext(GlobalContext);
+    experienceToNextLevel: next,
+    currentExperience: cur,
+  } = useContext(GlobalContext);
 
-  const percentage = (cur / next) * 100;
+  const percentage = ((cur - prev) / (next - prev)) * 100;
 
   return (
-  <Div>
-    <span>{prev} xp</span>
+    <Div>
+      <span>{0} xp</span>
       <Bar>
         <Filled percentage={percentage} />
-        <Current percentage={percentage} >{cur} xp</Current>
+        <Current percentage={percentage} >{cur - prev}xp</Current>
       </Bar>
-    <span>{next} xp</span>
-  </Div>
-  )
-}
+      <span>{next - prev} xp</span>
+    </Div>
+  );
+};
 
-export default ExpBar
-
-
+export default ExpBar;

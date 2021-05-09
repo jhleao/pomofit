@@ -21,19 +21,19 @@ align-items: center;
   & > strong {
     font-weight: 600;
     font-size: 1.1rem;
-    color: ${p => p.theme.colors.title};
+    color: ${(p) => p.theme.colors.title};
   }
 
   & > p {
     font-weight: 400;
     font-size: 0.8rem;
-    color: ${p => p.theme.colors.text};
+    color: ${(p) => p.theme.colors.text};
     display: flex;
     align-items: center;
 
     & > svg {
       font-size: 1.4rem;
-      color: var(--green);
+      color: ${(p) => p.theme.colors.positive};
     }
   }
 }

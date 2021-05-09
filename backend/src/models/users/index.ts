@@ -1,6 +1,6 @@
 import pool from '@models/.';
 import { getChallengeXp } from '@models/challenges';
-import { getRankingOfUser } from '@models/ranking';
+import { getRankingOfUser } from '@models/leaderboards';
 import { dbUser, User } from '@types';
 
 export const userExists = async (id: string) => pool.query(
@@ -56,6 +56,18 @@ export const completeChallenge = async (userId: string, challengeId: string) => 
     completed_count = completed_count + 1
     WHERE id = $1`, [userId, challengeXp],
   );
+
+  return true;
+};
+
+export const toggleTheme = async (userId: string) => {
+  const currentThemeName = await pool.query(
+    'SELECT theme_name FROM users WHERE id = $1', [userId],
+  ).then((q) => q.rows[0]?.theme_name);
+
+  const newThemeName = currentThemeName === 'light' ? 'dark' : 'light';
+
+  await pool.query('UPDATE users SET theme_name = $2 WHERE id = $1', [userId, newThemeName]);
 
   return true;
 };

@@ -4,12 +4,22 @@ export const Container = styled.div`
 width: 100%;
 height: 100%;
 padding: 3rem 3rem;
-background: var(--white);
+background: ${(p) => p.theme.colors.foreground};
+background: linear-gradient( ${(p) => p.theme.colors.foreground} 30%, ${(p) => p.theme.colors.background} 100%);
 box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+border-radius: 4px;
+overflow: hidden;
+position: relative;
 
 display: flex;
 justify-content: center;
 align-items: center;
+
+@media screen and (max-width: 1000px){
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
 `;
 
 export const NotActive = styled.div`
@@ -44,11 +54,11 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-
+padding-bottom: 1rem;
 
   & > h3 {
     font-size: 1.2rem;
-    color: var(--blue);
+    color: ${(p) => p.theme.colors.title};
     margin-bottom: 1.5rem;
   }
 
@@ -72,16 +82,19 @@ justify-content: center;
   & > div:last-child{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 0.5rem;
     margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 
     & button{
       border: none;
-      padding: 1rem 3rem;
+      padding: 1.3rem 3rem;
       color: var(--white);
-      border-radius: 5px;
       cursor: pointer;
       font-weight: 600;
+      font-size: 1rem;
       transition: all 0.2s;
       outline: none;
 
@@ -95,7 +108,7 @@ justify-content: center;
     }
 
     & button:last-child{
-      background: var(--green);
+      background: ${(p) => p.theme.colors.positive};
     }
   }
 `;

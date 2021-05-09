@@ -52,7 +52,7 @@ background-position: center;
 padding: 0 7rem;
 font-size: 8rem;
 font-weight: 600;
-color: var(--darkBlue); 
+color: ${(p) => p.theme.colors.title}; 
 `;
 
 export const CloseIcon = styled.img`
@@ -107,7 +107,7 @@ outline: none;
 }
 
 &:hover {
-background: var(--green);
+background: ${(p) => p.theme.colors.positive};
 color: #fff;
 
   transform: scale(1.05);

@@ -1,18 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { CountdownContext } from '../../contexts/CountdownContext';
-import { GlobalContext } from '../../contexts/GlobalContext';
-// import { BsPlayFill, BsPauseFill } from 'react-icons/bs';
+import { useContext } from 'react';
+import { CountdownContext } from '@contexts/CountdownContext';
+import { BsFillPlayFill } from 'react-icons/bs';
+import { MdClose } from 'react-icons/md';
+import { AiFillCheckCircle } from 'react-icons/ai';
 import { Container, Button } from './style';
 
 const Countdown = () => {
-
   const {
-    minutes, 
-    seconds, 
-    hasFinished, 
-    isActive, 
-    startCountdown, 
-    resetCountdown } = useContext(CountdownContext);
+    timePercentage,
+    minutes,
+    seconds,
+    hasFinished,
+    isActive,
+    startCountdown,
+    resetCountdown,
+  } = useContext(CountdownContext);
 
   const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('');
   const [secondsLeft, secondsRight] = String(seconds).padStart(2, '0').split('');
@@ -30,17 +32,23 @@ const Countdown = () => {
           <span>{secondsRight}</span>
         </div>
       </Container>
-      <Button 
+      <Button
         disabled={hasFinished}
-        active={isActive} 
-        onClick={!isActive ? startCountdown : resetCountdown} 
+        active={isActive}
+        percentage={timePercentage}
+        onClick={!isActive ? startCountdown : resetCountdown}
         type='button'>
-        { hasFinished ? 
-          'Ciclo finalizado'
-        : !isActive ? 'Iniciar um ciclo' : 'Abandonar ciclo'}
+        { !hasFinished && !isActive && 'Iniciar um ciclo'}
+        { !hasFinished && !isActive && <BsFillPlayFill />}
+
+        { !hasFinished && isActive && 'Abandonar ciclo' }
+        { !hasFinished && isActive && <MdClose /> }
+
+        { hasFinished && 'Ciclo encerrado' }
+        { hasFinished && <AiFillCheckCircle /> }
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default Countdown
+export default Countdown;

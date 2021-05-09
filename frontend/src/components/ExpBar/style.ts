@@ -1,7 +1,7 @@
 import styled, { DefaultTheme } from 'styled-components';
 
 interface FilledPs {
-  percentage: number; 
+  percentage: number;
   theme: DefaultTheme // caso quisesse puxar tema nesse caso...
 }
 
@@ -9,7 +9,7 @@ export const Filled = styled.div`
 height: 4px;
 width: ${(p: FilledPs) => `${p.percentage}%`};
 background: ${(p: FilledPs) => `${p.theme.colors.textHighlight}`}; // fazer assim
-background: var(--green);
+background: ${(p) => p.theme.colors.positive};
 transition: all 0.2s ease-out;
 `;
 
@@ -29,14 +29,20 @@ flex-flow: row nowrap;
 justify-content: center;
 align-items: center;
 width: 100%;
-color: ${props => props.theme.colors.text};
+color: ${(props) => props.theme.colors.text};
+
+@media screen and (max-width: 1000px){
+  width: 80%;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
 `;
 
 export const Bar = styled.div`
 flex: 1;
 height: 4px;
 border-radius: 4px;
-background: ${props => props.theme.colors.line};
+background: ${(props) => props.theme.colors.line};
 position: relative;
 margin: 0 1rem;
 `;

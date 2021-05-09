@@ -1,4 +1,5 @@
-import { IncomingMessage } from "node:http"
+import { IncomingMessage } from 'node:http';
+import 'styled-components';
 
 export interface UserData {
   img: string;
@@ -21,15 +22,36 @@ export interface Challenge {
 export interface LeaderboardData {
   position: number;
   user: {
-    name: string, 
-    imgUrl: string, 
+    name: string,
+    imgUrl: string,
     level: number};
-  completedCount: number, 
+  completedCount: number,
   totalExp: number
 }
 
 declare module 'node:http' {
   export interface IncomingMessage{
     cookies: any;
+  }
+}
+
+declare module 'styled-components' {
+  export interface DefaultTheme {
+    title: string,
+    colors: {
+      background: string,
+      foreground: string,
+      negative: string,
+      positive: string,
+      overlay: string,
+      line: string,
+      text: string,
+      textHighlight: string,
+      title: string,
+      inactiveButton: string,
+      inactiveButtonHover: string,
+      activeButton: string,
+      activeButtonHover: string,
+    }
   }
 }

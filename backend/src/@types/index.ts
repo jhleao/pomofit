@@ -54,6 +54,17 @@ export type Challenge = {
   xp: number;
 }
 
+export interface LeaderboardData {
+  position: number;
+  user: {
+    name: string,
+    imgUrl: string,
+    level: number
+  };
+  completedCount: number,
+  totalExp: number
+}
+
 declare module 'express-session' {
   interface SessionData {
     userId?: string;

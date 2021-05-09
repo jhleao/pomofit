@@ -5,7 +5,6 @@ import { notLoggedIn } from '@utils/problems';
 const loggedOnly: Middleware = (req, res, next) => {
   const { userId } = req.session;
   if (!userId) return notLoggedIn.send(res);
-  console.log({ userId });
 
   const exists = userExists(userId);
 
