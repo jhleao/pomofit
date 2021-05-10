@@ -1,8 +1,10 @@
 <svg id="Camada_1" data-name="Camada 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 769 603">
   <defs>
-    <style>
+   <style>
       .cls-1 {
-        fill: #b91d00;
+        fill: rgb(203, 33, 1);
+        -webkit-filter: drop-shadow(2px 2px 20px rgba(255,255,255,0.2));
+        filter: url(#shadow2);
       }
 
       .cls-2 {
@@ -10,9 +12,12 @@
       }
 
       .cls-3 {
-        fill: #b91d00;
+        fill: #fff;
       }
     </style>
+    <filter id="shadow2">
+      <feDropShadow dx="2" dy="2" stdDeviation="30" flood-color="rgba(0,0,0,0.2)" />
+   </filter>
   </defs>
   <title>pomoFit</title>
   <rect class="cls-1" x="211.18" y="0.1" width="339.64" height="339.64"/>

@@ -35,7 +35,10 @@ export const CountdownProvider = ({ children }: CountdownProviderPs) => {
 
   // eslint-disable-next-line no-undef
   let countdownTimeout: NodeJS.Timeout;
-  const startCountdown = () => setIsActive(true);
+  const startCountdown = () => {
+    if ('Notification' in window) Notification.requestPermission();
+    setIsActive(true);
+  };
   const resetCountdown = () => {
     clearTimeout(countdownTimeout);
     setIsActive(false);

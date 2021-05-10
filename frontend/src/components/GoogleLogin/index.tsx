@@ -1,21 +1,20 @@
-import React from 'react'
 import { GoogleLogin } from 'react-google-login';
 import { Div, GoogleIcon } from './style';
 
-const GoogleLoginButton = ({ text, onSuccess}) => {
-
-  const onFailure = res => {
+const GoogleLoginButton = ({ text, smallText, onSuccess }) => {
+  const onFailure = (res) => {
     console.log('[Login Failed]');
     console.log(res);
-  }
+  };
 
   return (
-    <GoogleLogin 
+    <GoogleLogin
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-      render={ps => (
+      render={(ps) => (
         <Div onClick={ps.onClick}>
           <GoogleIcon />
-          {text}
+          <span>{text}</span>
+          <span>{smallText}</span>
         </Div>
       )}
       onSuccess={onSuccess}
@@ -26,8 +25,7 @@ const GoogleLoginButton = ({ text, onSuccess}) => {
       responseType='code'
     />
     
-  )
-}
+  );
+};
 
-export default GoogleLoginButton
-
+export default GoogleLoginButton;

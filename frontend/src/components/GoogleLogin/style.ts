@@ -15,6 +15,28 @@ justify-content: center;
 align-items: center;
 cursor: pointer;
 width: 100%;
+
+& > span:first-of-type{display: block;}
+
+& > span:last-of-type{display: none;}
+
+@media screen and (max-width: 750px){
+  color: #fff;
+  border: none;
+  background: none;
+  box-shadow: none;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  padding: 1em 2em;
+  & > div {display: none};
+  & > span:first-of-type{display: none;}
+  & > span:last-of-type{display: block;}
+
+  &:after{
+    content: '->';
+    margin-left: -8px;
+  }
+}
 `;
 
 export const GoogleIcon = styled.div`

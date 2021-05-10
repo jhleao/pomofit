@@ -150,10 +150,6 @@ const GlobalProvider = ({ children }: GlobalProviderPs) => {
     ranking,
   };
 
-  useEffect(() => {
-    if ('Notification' in window) Notification.requestPermission();
-  }, []);
-
   return (
 
     <GlobalContext.Provider value={data}>

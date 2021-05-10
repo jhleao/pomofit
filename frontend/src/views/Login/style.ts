@@ -10,6 +10,10 @@ height: 100vh;
 width: 100vw;
 padding: 1rem 3rem;
 background: var(--primary);
+
+@media screen and (max-width: 750px){
+  padding: 0;
+}
 `;
 
 export const Container = styled.div`
@@ -23,6 +27,16 @@ color: #b91d00;
 display: flex;
 flex-flow: row wrap;
 border-radius: 5px;
+
+@media screen and (max-width: 750px){
+box-shadow: none;
+background: none;
+
+height: 60vh;
+padding: 2rem 3rem;
+color: white;
+
+}
 `;
 
 export const Section = styled.div`
@@ -43,4 +57,11 @@ font-weight: 600;
 
 export const Img = styled.img`
 width: 80%;
+&:first-of-type{display: block;};
+&:last-of-type{display: none;};
+
+@media screen and (max-width: 750px){
+  &:first-of-type{display: none;};
+  &:last-of-type{display: block;};
+}
 `;

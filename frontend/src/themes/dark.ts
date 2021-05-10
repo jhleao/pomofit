@@ -12,7 +12,7 @@ const dark = {
     title: 'var(--darkThemeTitle)',
     inactiveButton: 'var(--primary)',
     inactiveButtonHover: 'var(--darkPrimary)',
-    activeButton: 'var(--secondary)',
+    activeButton: 'var(--darkThemeForeground)',
     activeButtonHover: 'var(--primary)',
   },
 };
