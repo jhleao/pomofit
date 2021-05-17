@@ -21,7 +21,7 @@ const app = express();
 const { COOKIE_SECRET, COOKIE_NAME, NODE_ENV } = process.env;
 const IN_PROD = NODE_ENV === 'production';
 const CORS_ORIGIN = IN_PROD ? 'https://pomofit.app' : 'http://localhost:3000';
-const ONE_HOUR = 1000 * 60 * 60 * 1;
+const TWELVE_HOURS = 1000 * 60 * 60 * 12;
 
 app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 app.use(express.json());
@@ -34,7 +34,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: ONE_HOUR,
+    maxAge: TWELVE_HOURS,
     sameSite: 'lax',
     secure: IN_PROD,
   },

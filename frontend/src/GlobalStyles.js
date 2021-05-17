@@ -50,29 +50,7 @@ const GlobalStyles = createGlobalStyle`
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter/Inter-SemiBold.ttf");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
 
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter/Inter-Bold.ttf");
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Rajdhani";
-  src: url("/fonts/Rajdhani/Rajdhani-SemiBold.ttf");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
 
 @media screen and (max-width: 1080px){
   html {
