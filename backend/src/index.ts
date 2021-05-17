@@ -35,11 +35,11 @@ app.use(session({
   saveUninitialized: false,
   rolling: true,
   cookie: {
-    secure: IN_PROD,
-    maxAge: TWELVE_HOURS,
+    secure: true,
+    maxAge: 1000 * 60 * 60 * 12,
     httpOnly: true,
     sameSite: 'lax',
-    domain: 'https://pomofit.app',
+    domain: 'pomofit.app',
   },
 }));
 

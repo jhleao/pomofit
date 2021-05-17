@@ -14,11 +14,11 @@ to {
 export const Overlay = styled.div`
 width: 100%;
 height: 100%;
-position: absolute;
+position: fixed;
 top: 0;
 left: 0;
 
-background: rgba(255, 255, 255, 0.5);
+background: ${(p) => p.theme.colors.overlay};
 filter: blur(20px);
 `;
 
@@ -31,7 +31,7 @@ align-items: center;
 position: absolute;
 top: 50%;
 left: 50%;
-background: #fff;
+background: ${(p) => p.theme.colors.foreground};
 
 opacity: 0;
 transform: translate(-50%, -80%);
