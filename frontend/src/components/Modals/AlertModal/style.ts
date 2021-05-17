@@ -55,8 +55,8 @@ border: none;
 cursor: pointer;
 outline: none;
 font-weight: 600;
-color: ${(p: ButtonPs) => p.alternative ? 'white' : '#222' };
-background: ${(p: ButtonPs) => p.alternative ? p.theme.colors.title : 'white' };
+color: ${(p: ButtonPs) => p.alternative ? p.theme.colors.text: p.theme.colors.text };
+background: ${(p: ButtonPs) => p.alternative ? 'var(--darkSecondary)' : p.theme.colors.foreground };
 transition: all 0.2s ease-out;
 
 &:hover {
