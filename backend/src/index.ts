@@ -39,7 +39,7 @@ app.use(session({
     maxAge: TWELVE_HOURS,
     httpOnly: true,
     sameSite: 'lax',
-    domain: 'pomofit.app',
+    domain: 'https://pomofit.app',
   },
 }));
 
