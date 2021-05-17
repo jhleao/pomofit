@@ -28,15 +28,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
+  secret: COOKIE_SECRET,
   store: new ConnectPG({ pool }),
   name: COOKIE_NAME,
-  secret: COOKIE_SECRET,
   resave: false,
   saveUninitialized: false,
+  rolling: true,
   cookie: {
-    maxAge: TWELVE_HOURS,
-    sameSite: 'lax',
     secure: IN_PROD,
+    maxAge: TWELVE_HOURS,
+    httpOnly: true,
+    sameSite: 'lax',
+    domain: 'pomofit.app',
   },
 }));
 
